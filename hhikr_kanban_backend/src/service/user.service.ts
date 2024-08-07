@@ -1,14 +1,18 @@
 import { Provide } from '@midwayjs/core';
-import { IUserOptions } from '../interface';
+import { User } from '../model/user';
 
 @Provide()
 export class UserService {
-  async getUser(options: IUserOptions) {
-    return {
-      uid: options.uid,
-      username: 'mockedName',
-      phone: '12345678901',
-      email: 'xxx.xxx@xxx.com',
-    };
+  private users: User[] = [];
+
+  constructor() {
+    this.users.push(new User('hhikr', '114514'));
+  }
+
+  async validateUser(name: string, password: string): Promise<boolean> {
+    const user = this.users.find(
+      user => user.name === name && user.password === password
+    );
+    return user !== undefined;
   }
 }
