@@ -8,27 +8,37 @@ on:
     branches:
       - main
 
+
+permissions: 
+  contents: write
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout code
+    - name: 读取仓库内容
       uses: actions/checkout@v4
 
-    - name: Set up Node.js
+    - name: 设置node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '22' # 根据需要选择 Node.js 版本
+        node-version: '22' 
 
-    - name: Install dependencies
+    - name: 安装依赖
       run: |
-        cd hhikr_kanban_frontend # 前端目录
+        cd hhikr_kanban_frontend 
         npm install
-        cd ../hhikr_kanban_backend # 后端目录
+        cd ../hhikr_kanban_backend 
         npm install
 
-    - name: Build frontend
+    - name: 项目打包
       run: |
         cd hhikr_kanban_frontend
         npm run build
+
+    - name: 部署到Github Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with: 
+        branch: gh-pages
+        folder: build
