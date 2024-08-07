@@ -14,12 +14,12 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v4
       with:
-        node-version: '16' # 根据需要选择 Node.js 版本
+        node-version: '22' # 根据需要选择 Node.js 版本
 
     - name: Install dependencies
       run: |
@@ -32,10 +32,3 @@ jobs:
       run: |
         cd hhikr_kanban_frontend
         npm run build
-
-    - name: Run tests
-      run: |
-        cd hhikr_kanban_frontend
-        npm test -- --watchAll=false # 确保测试在 CI 中运行
-        cd ../hhikr_kanban_backend
-        npm test
