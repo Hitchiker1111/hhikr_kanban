@@ -6,6 +6,7 @@ import { join } from 'path';
 // import { DefaultErrorFilter } from './filter/default.filter';
 // import { NotFoundFilter } from './filter/notfound.filter';
 import { ReportMiddleware } from './middleware/report.middleware';
+import cors from '@koa/cors';
 
 @Configuration({
   imports: [
@@ -25,6 +26,7 @@ export class MainConfiguration {
   async onReady() {
     // add middleware
     this.app.useMiddleware([ReportMiddleware]);
+    this.app.use(cors({ origin: '*' }));
     // add filter
     // this.app.useFilter([NotFoundFilter, DefaultErrorFilter]);
   }
