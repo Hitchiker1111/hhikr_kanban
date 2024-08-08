@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,9 +17,10 @@ const Login = () => {
     });
     const data = await response.json();
     if (data.success) {
-      alert('Login successful');
+      localStorage.setItem('user', email);
+      navigate('/dashboard');
     } else {
-      alert('Login failed');
+      alert('登陆失败。请重新检查邮箱或密码喵。');
     }
   };
 

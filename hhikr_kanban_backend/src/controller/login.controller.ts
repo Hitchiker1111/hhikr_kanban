@@ -9,11 +9,11 @@ export class LoginController {
 
   @Post('/login')
   async login(
-    @Body() body: { name: string; password: string },
+    @Body() body: { email: string; password: string },
     ctx: Context
   ): Promise<void> {
-    const { name, password } = body;
-    const isValid = await this.userService.validateUser(name, password);
+    const { email, password } = body;
+    const isValid = await this.userService.validateUser(email, password);
     if (isValid) {
       ctx.body = { success: true };
     } else {
