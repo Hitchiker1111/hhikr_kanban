@@ -35,7 +35,10 @@ jobs:
     - name: 项目打包
       run: |
         cd hhikr_kanban_frontend
+        pwd
+        ls -la
         npm run build
+      
 
     - name: 部署到Github Pages
       uses: JamesIves/github-pages-deploy-action@v4
