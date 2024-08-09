@@ -3,23 +3,36 @@ import { useNavigate } from 'react-router-dom';
 
 const AddProject = () => {
   const [projectName, setProjectName] = useState('');
-  const [tasks, setTasks] = useState(['']);
+  const [tasks, setTasks] = useState([{ taskName: '' }]);
   const navigate = useNavigate();
+  const projectInitiator = localStorage.getItem('user'); // 获取当前登录的用户邮箱
 
   const handleAddTask = () => {
-    setTasks([...tasks, '']);
+    setTasks([...tasks, { taskName: '' }]);
   };
 
   const handleTaskChange = (index, value) => {
     const newTasks = tasks.slice();
-    newTasks[index] = value;
+    newTasks[index].taskName = value;
     setTasks(newTasks);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 项目和任务信息放入数组或暂存
-    console.log({ projectName, tasks });
+
+    const existingProjects = JSON.parse(localStorage.getItem('projects')) || [];
+    const newProject = {
+      projectName,
+      projectInitiator,
+      tasks: tasks.map(task => ({
+        taskName: task.taskName,
+        taskInfo: '',
+        taskComment: []
+      }))
+    };
+    const updatedProjects = [...existingProjects, newProject];
+    localStorage.setItem('projects', JSON.stringify(updatedProjects));
+
     navigate('/dashboard');
   };
 
@@ -40,7 +53,7 @@ const AddProject = () => {
           <div key={index}>
             <input
               type="text"
-              value={task}
+              value={task.taskName}
               onChange={(e) => handleTaskChange(index, e.target.value)}
               required
             />
