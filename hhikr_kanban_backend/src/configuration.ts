@@ -3,10 +3,10 @@ import * as koa from '@midwayjs/koa';
 import * as validate from '@midwayjs/validate';
 import * as info from '@midwayjs/info';
 import { join } from 'path';
+import { ReportMiddleware } from './middleware/report.middleware';
+import * as cors from '@koa/cors';
 // import { DefaultErrorFilter } from './filter/default.filter';
 // import { NotFoundFilter } from './filter/notfound.filter';
-import { ReportMiddleware } from './middleware/report.middleware';
-import cors from '@koa/cors';
 
 @Configuration({
   imports: [
@@ -24,7 +24,6 @@ export class MainConfiguration {
   app: koa.Application;
 
   async onReady() {
-    // add middleware
     this.app.useMiddleware([ReportMiddleware]);
     this.app.use(cors({ origin: '*' }));
     // add filter

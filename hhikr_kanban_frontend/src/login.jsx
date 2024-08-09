@@ -8,21 +8,49 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:3000/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
-    if (data.success) {
-      localStorage.setItem('user', email);
-      navigate('/dashboard');
-    } else {
-      alert('登陆失败。请重新检查邮箱或密码喵。');
+  
+    const requestBody = {
+      email: email,
+      password: password,
+    };
+  
+    const jsonBody = JSON.stringify(requestBody);
+  
+    try {
+      const response = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonBody,
+      });
+  
+      // 检查响应状态
+      if (!response.ok) {
+        const errorData = await response.json(); // 读取错误响应体
+        throw new Error(errorData.message || 'Login failed');
+      }
+  
+      // 检查响应体是否为空
+      const text = await response.text();
+      if (!text) {
+        throw new Error('Empty response from server');
+      }
+  
+      // 尝试解析成功的响应
+      const data = JSON.parse(text);
+      if (data.success) {
+        localStorage.setItem('user', email); // 保存用户信息
+        navigate('/dashboard'); // 跳转到主页
+      } else {
+        alert(data.message || 'Login failed'); // 显示失败信息
+      }
+    } catch (error) {
+      console.error('Error:', error); // 捕获错误
+      alert('An error occurred during login.');
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -50,3 +78,4 @@ const Login = () => {
 };
 
 export default Login;
+

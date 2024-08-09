@@ -6,10 +6,9 @@ export default {
   koa: {
     port: 7001,
   },
+  cors: {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+    credentials: true,
+  },
 } as MidwayConfig;
-
-export const cors = {
-  origin: '*', // 允许所有域名跨域请求
-  allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
-  credentials: true, // 允许跨域携带 cookie
-};

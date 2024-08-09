@@ -9,10 +9,11 @@ export class UserService {
     this.users.push(new User('hhikr@42.com', '114514'));
   }
 
-  async validateUser(name: string, password: string): Promise<boolean> {
+  async validateUser(email: string, password: string): Promise<boolean> {
     const user = this.users.find(
-      user => user.name === name && user.password === password
+      user => user.email === email && user.password === password
     );
+    console.log('User found:', user);
     return user !== undefined;
   }
 }
