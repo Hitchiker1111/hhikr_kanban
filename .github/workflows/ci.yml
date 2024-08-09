@@ -1,46 +1,34 @@
-name: CI
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-
-
-permissions: 
-  contents: write
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: 读取仓库内容
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: 设置node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22' 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
-    - name: 安装依赖
-      run: |
-        cd hhikr_kanban_frontend 
-        npm install
-        cd ../hhikr_kanban_backend 
-        npm install
+      - name: Install dependencies for front-end
+        working-directory: ./hhikr_kanban_frontend
+        run: |
+          npm install
+          npm run build
 
-    - name: 项目打包
-      run: |
-        cd hhikr_kanban_frontend
-        pwd
-        npm run build
-      
-
-    - name: 部署到Github Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      with: 
-        branch: gh-pages
-        folder: hhikr_kanban_frontend/dist
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./hhikr_kanban_frontend/dist
+          publish_branch: gh-pages
+          user_name: 'your-github-username'
+          user_email: 'your-email@example.com'
