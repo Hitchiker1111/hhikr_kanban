@@ -28,17 +28,14 @@ jobs:
     - name: 安装依赖
       run: |
         cd hhikr_kanban_frontend 
-        rm -rf node_modules
         npm install
         cd ../hhikr_kanban_backend 
-        rm -rf node_modules
         npm install
 
     - name: 项目打包
       run: |
         cd hhikr_kanban_frontend
         pwd
-        ls -la
         npm run build
       
 
