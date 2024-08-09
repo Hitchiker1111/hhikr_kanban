@@ -1,23 +1,28 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Project from './Project';
 
 const Dashboard = () => {
+  const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem('user'); // 获取已登录用户的邮箱
 
-  const handleAddProject = () => {
-    navigate('/add-project');
-  };
+  useEffect(() => {
+    const storedProjects = JSON.parse(localStorage.getItem('projects')) || [];
+    setProjects(storedProjects);
+  }, []);
 
   return (
     <div>
-      <header>
-        <button onClick={handleAddProject}>添加项目</button>
-        <span>{user}</span>
-      </header>
-      <main>
-        <h1>看板</h1>
-        <div>这里是空的看板</div>
-      </main>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <button onClick={() => navigate('/add-project')}>添加项目</button>
+        <span>已登录用户: {user}</span>
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+        {projects.map((project, index) => (
+          <Project key={index} project={project} />
+        ))}
+      </div>
     </div>
   );
 };

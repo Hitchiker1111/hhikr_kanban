@@ -24,20 +24,17 @@ const Login = () => {
         },
         body: jsonBody,
       });
-  
-      // 检查响应状态
+
       if (!response.ok) {
         const errorData = await response.json(); // 读取错误响应体
         throw new Error(errorData.message || 'Login failed');
       }
-  
-      // 检查响应体是否为空
+
       const text = await response.text();
       if (!text) {
         throw new Error('Empty response from server');
       }
-  
-      // 尝试解析成功的响应
+
       const data = JSON.parse(text);
       if (data.success) {
         localStorage.setItem('user', email); // 保存用户信息
