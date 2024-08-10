@@ -44,8 +44,8 @@ const TaskDetail = () => {
     });
     localStorage.setItem('projects', JSON.stringify(updatedProjects));
     setIsEditing(false);
-    setTask({ ...task, taskName: newTaskName, taskInfo });
-  };
+    setTask({ ...task, taskName: newTaskName, taskInfo, attachments });
+  };  
 
   const handleDeleteTask = () => {
     const storedProjects = JSON.parse(localStorage.getItem('projects')) || [];
@@ -93,8 +93,8 @@ const TaskDetail = () => {
       name: file.name,
       url: URL.createObjectURL(file),
     }));
-    setAttachments([...attachments, ...newAttachments]);
-
+    setAttachments(prevAttachments => [...prevAttachments, ...newAttachments]);
+  
     const storedProjects = JSON.parse(localStorage.getItem('projects'));
     const updatedProjects = storedProjects.map(p => {
       if (p.projectName === projectName) {
@@ -102,7 +102,7 @@ const TaskDetail = () => {
           ...p,
           tasks: p.tasks.map(t =>
             t.taskName === taskName
-              ? { ...t, attachments: [...t.attachments, ...newAttachments] }
+              ? { ...t, attachments: [...(t.attachments || []), ...newAttachments] }
               : t
           )
         };
@@ -165,7 +165,7 @@ const TaskDetail = () => {
           type="file" 
           onChange={handleFileUpload} 
           multiple 
-          accept=".pdf,.xlsx,.xls" 
+          accept=".pdf,.xlsx,.xls,.md" 
         />
         <ul>
           {attachments.map((file, index) => (

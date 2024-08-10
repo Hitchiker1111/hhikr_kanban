@@ -14,8 +14,21 @@ const Task = ({ task, projectName }) => {
     >
       <h4>{task.taskName}</h4>
       <p>{task.taskInfo || '暂无任务信息'}</p>
+      {task.attachments && task.attachments.length > 0 && (
+        <div>
+          <strong>附件：</strong>
+          <ul>
+            {task.attachments.map((file, index) => (
+              <li key={index}>
+                <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
+  
 };
 
 export default Task;
