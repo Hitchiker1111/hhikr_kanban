@@ -5,7 +5,7 @@ import Project from './Project';
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
-  const user = localStorage.getItem('user'); // 获取已登录用户的邮箱
+  const user = localStorage.getItem('user');
 
   useEffect(() => {
     const storedProjects = JSON.parse(localStorage.getItem('projects')) || [];
