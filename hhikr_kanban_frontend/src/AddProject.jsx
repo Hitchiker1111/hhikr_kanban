@@ -37,31 +37,46 @@ const AddProject = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>项目名称: </label>
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-2">项目名称: </label>
         <input
           type="text"
           value={projectName}
           onChange={(e) => setProjectName(e.target.value)}
           required
+          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <div>
-        <label>项目子任务: </label>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-2">项目子任务: </label>
         {tasks.map((task, index) => (
-          <div key={index}>
+          <div key={index} className="mb-2">
             <input
               type="text"
               value={task.taskName}
               onChange={(e) => handleTaskChange(index, e.target.value)}
               required
+              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         ))}
       </div>
-      <button type="button" onClick={handleAddTask}>添加子任务</button>
-      <button type="submit">提交</button>
+      <div className="flex items-center space-x-4">
+        <button 
+          type="button" 
+          onClick={handleAddTask}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none"
+        >
+          添加子任务
+        </button>
+        <button 
+          type="submit"
+          className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none"
+        >
+          提交
+        </button>
+      </div>
     </form>
   );
 };

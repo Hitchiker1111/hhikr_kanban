@@ -40,26 +40,47 @@ const Project = ({ project, onDeleteProject}) => {
   };
 
   return (
-    <div className="project">
-      <h3>{project.projectName}</h3>
-      <p>发起者: {project.projectInitiator}</p>
-      <button onClick={handleDeleteProject}>删除项目</button>
-      <button onClick={handleAddTask}>添加任务</button>
+<div className="bg-white p-4 rounded-lg shadow-lg mb-4 w-full md:w-1/2 lg:w-1/3">
+  <h3 className="text-lg font-bold mb-2">{project.projectName}</h3>
+  <p className="text-gray-600 mb-4">发起者: {project.projectInitiator}</p>
+  <button 
+    onClick={handleDeleteProject} 
+    className="bg-red-500 text-white px-3 py-1 rounded-lg mr-2 hover:bg-red-600 focus:outline-none"
+  >
+    删除项目
+  </button>
+  <button 
+    onClick={handleAddTask} 
+    className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 focus:outline-none"
+  >
+    添加任务
+  </button>
 
-      {showConfirm && (
-        <div className="confirm-dialog">
-          <p>确定要删除项目吗？</p>
-          <button onClick={confirmDelete}>确认</button>
-          <button onClick={cancelDelete}>取消</button>
-        </div>
-      )}
-
-      <div className="tasks">
-        {project.tasks.map((task, index) => (
-          <Task key={index} task={task} projectName={project.projectName} />
-        ))}
-      </div>
+  {showConfirm && (
+    <div className="mt-4 p-4 bg-gray-100 border border-gray-300 rounded-lg">
+      <p className="text-gray-700 mb-4">确定要删除项目吗？</p>
+      <button 
+        onClick={confirmDelete} 
+        className="bg-red-500 text-white px-3 py-1 rounded-lg mr-2 hover:bg-red-600 focus:outline-none"
+      >
+        确认
+      </button>
+      <button 
+        onClick={cancelDelete} 
+        className="bg-gray-300 text-gray-700 px-3 py-1 rounded-lg hover:bg-gray-400 focus:outline-none"
+      >
+        取消
+      </button>
     </div>
+  )}
+
+  <div className="mt-4">
+    {project.tasks.map((task, index) => (
+      <Task key={index} task={task} projectName={project.projectName} />
+    ))}
+  </div>
+</div>
+
   );
 };
 

@@ -24,17 +24,26 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <button onClick={() => navigate('/add-project')}>添加项目</button>
+    <div className="px-6 py-4">
+      <div className="flex justify-between items-center mb-6">
+        <button 
+          onClick={() => navigate('/add-project')} 
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none"
+        >
+          添加项目
+        </button>
         <div>
           <span>{user}</span>
-          <a href="#" onClick={handleLogout} style={{ marginLeft: '20px' }}>
+          <a 
+            href="#" 
+            onClick={handleLogout} 
+            className="ml-4 text-red-500 hover:underline"
+          >
             I&apos;m out
           </a>
         </div>
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div className="flex flex-wrap gap-4">
         {projects.map((project, index) => (
           <Project key={index} project={project} onDeleteProject={handleDeleteProject}/>
         ))}

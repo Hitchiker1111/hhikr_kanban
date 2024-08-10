@@ -121,78 +121,103 @@ const TaskDetail = () => {
   }
 
   return (
-    <div>
-      <h2>任务详情</h2>
-      <div>
-        <label>任务名称：</label>
+    <div className="p-6 bg-white rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-4">任务详情</h2>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-2">任务名称：</label>
         {isEditing ? (
           <input 
             type="text" 
             value={newTaskName} 
             onChange={(e) => setNewTaskName(e.target.value)} 
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         ) : (
-          <p>{task.taskName}</p>
+          <p className="text-lg">{task.taskName}</p>
         )}
       </div>
-      <div>
-        <label>任务详细信息：</label>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-2">任务详细信息：</label>
         {isEditing ? (
           <textarea 
             value={taskInfo} 
             onChange={(e) => setTaskInfo(e.target.value)} 
             rows="5"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         ) : (
-          <p>{task.taskInfo}</p>
+          <p className="text-lg">{task.taskInfo}</p>
         )}
       </div>
-      <button onClick={toggleEditing}>
-        {isEditing ? '保存更改' : '修改任务'}
-      </button>
-      {isEditing && (
-        <button onClick={handleUpdateTask} style={{ marginLeft: '10px' }}>
-          提交修改
+      <div className="flex items-center mb-4">
+        <button 
+          onClick={toggleEditing}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-blue-600 focus:outline-none"
+        >
+          {isEditing ? '保存更改' : '修改任务'}
         </button>
-      )}
-      <button onClick={handleDeleteTask} style={{ color: 'red', marginLeft: '10px' }}>
-        删除任务
-      </button>
-      
-      <div>
-        <h3>附件</h3>
+        {isEditing && (
+          <button 
+            onClick={handleUpdateTask} 
+            className="bg-green-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-green-600 focus:outline-none"
+          >
+            提交修改
+          </button>
+        )}
+        <button 
+          onClick={handleDeleteTask} 
+          className="text-red-500 hover:text-red-600 focus:outline-none"
+        >
+          删除任务
+        </button>
+      </div>
+
+      <div className="mb-6">
+        <h3 className="text-xl font-semibold mb-2">附件</h3>
         <input 
           type="file" 
           onChange={handleFileUpload} 
           multiple 
-          accept=".pdf,.xlsx,.xls,.md" 
+          accept=".pdf,.xlsx,.xls,.md"
+          className="mb-4"
         />
-        <ul>
+        <ul className="list-disc list-inside">
           {attachments.map((file, index) => (
             <li key={index}>
-              <a href={file.url} target="_blank" rel="noopener noreferrer">{file.name}</a>
+              <a href={file.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                {file.name}
+              </a>
             </li>
           ))}
         </ul>
       </div>
-      
-      <div>
-        <h3>评论</h3>
+
+      <div className="mb-6">
+        <h3 className="text-xl font-semibold mb-2">评论</h3>
         {comments.map((c, index) => (
-          <div key={index}>
-            <p>{c.commentContent}</p>
-            <p>评论者: {c.commentator} | 时间: {c.commentTime}</p>
+          <div key={index} className="mb-2">
+            <p className="text-gray-700">{c.commentContent}</p>
+            <p className="text-gray-500 text-sm">评论者: {c.commentator} | 时间: {c.commentTime}</p>
           </div>
         ))}
         <textarea
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           placeholder="写下你的评论..."
+          className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
         />
-        <button onClick={handleAddComment}>添加评论</button>
+        <button 
+          onClick={handleAddComment}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none"
+        >
+          添加评论
+        </button>
       </div>
 
-      <button onClick={() => navigate('/dashboard')} style={{ position: 'absolute', bottom: '20px', right: '20px' }}>
+      <button 
+        onClick={() => navigate('/dashboard')} 
+        className="fixed bottom-5 right-5 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 focus:outline-none"
+      >
         返回
       </button>
     </div>
