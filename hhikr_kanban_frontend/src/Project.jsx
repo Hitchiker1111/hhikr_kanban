@@ -21,8 +21,8 @@ const Project = ({ project, onDeleteProject}) => {
 
   const handleAddTask = () => {
     const newTask = {
-      taskName: '新的任务',
-      taskInfo: '暂无具体信息',
+      taskName: '起个任务名',
+      taskInfo: '填写任务具体信息',
       taskComment: [],
       attachments: [],
     };
