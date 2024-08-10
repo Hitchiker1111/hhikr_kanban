@@ -12,13 +12,23 @@ const Dashboard = () => {
     setProjects(storedProjects);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button onClick={() => navigate('/add-project')}>添加项目</button>
-        <span>已登录用户: {user}</span>
+        <div>
+          <span>{user}</span>
+          <a href="#" onClick={handleLogout} style={{ marginLeft: '20px' }}>
+            I&apos;m out
+          </a>
+        </div>
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {projects.map((project, index) => (
           <Project key={index} project={project} />
         ))}
@@ -28,3 +38,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

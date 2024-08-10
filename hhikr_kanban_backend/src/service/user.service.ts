@@ -7,6 +7,7 @@ export class UserService {
 
   constructor() {
     this.users.push(new User('hhikr@42.com', '114514'));
+    this.users.push(new User('1@1', '114514'));
   }
 
   async validateUser(email: string, password: string): Promise<boolean> {
