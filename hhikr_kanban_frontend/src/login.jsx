@@ -26,7 +26,7 @@ const Login = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json(); // 读取错误响应体
+        const errorData = await response.json();
         throw new Error(errorData.message || 'Login failed');
       }
 
@@ -37,13 +37,13 @@ const Login = () => {
 
       const data = JSON.parse(text);
       if (data.success) {
-        localStorage.setItem('user', email); // 保存用户信息
-        navigate('/dashboard'); // 跳转到主页
+        localStorage.setItem('user', email);
+        navigate('/dashboard');
       } else {
-        alert(data.message || 'Login failed'); // 显示失败信息
+        alert(data.message || 'Login failed');
       }
     } catch (error) {
-      console.error('Error:', error); // 捕获错误
+      console.error('Error:', error);
       alert('An error occurred during login.');
     }
   };
@@ -69,7 +69,7 @@ const Login = () => {
           required
         />
       </div>
-      <button type="submit">Login</button>
+      <button type="submit">I&apos;m in</button>
     </form>
   );
 };
