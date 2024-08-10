@@ -1,53 +1,64 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Task from './Task';
 
-const Project = ({ project }) => {
-  const [projectName, setProjectName] = useState(project.projectName);
-  const [tasks, setTasks] = useState(project.tasks);
-  const [isEditing, setIsEditing] = useState(false);
+const Project = ({ project, onDeleteProject}) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const navigate = useNavigate();
 
-  const handleAddTask = () => {
-    const newTask = { taskName: '', taskInfo: '', taskComment: [] };
-    setTasks([...tasks, newTask]);
-
-    // 更新 localStorage 中的项目
-    const storedProjects = JSON.parse(localStorage.getItem('projects'));
-    const updatedProjects = storedProjects.map(p => 
-      p.projectName === project.projectName ? { ...p, tasks: [...p.tasks, newTask] } : p
-    );
-    localStorage.setItem('projects', JSON.stringify(updatedProjects));
+  const handleDeleteProject = () => {
+    setShowConfirm(true);
   };
 
-  const handleSaveName = () => {
-    // 保存新的项目名称
-    setIsEditing(false);
-    const storedProjects = JSON.parse(localStorage.getItem('projects'));
-    const updatedProjects = storedProjects.map(p =>
-      p.projectName === project.projectName ? { ...p, projectName } : p
-    );
+  const confirmDelete = () => {
+    onDeleteProject(project.projectName);
+    setShowConfirm(false);
+  };
+
+  const cancelDelete = () => {
+    setShowConfirm(false);
+  };
+
+  const handleAddTask = () => {
+    const newTask = {
+      taskName: '新的任务',
+      taskInfo: '暂无具体信息',
+      taskComment: [],
+      attachments: [],
+    };
+    const updatedProjects = JSON.parse(localStorage.getItem('projects')).map(p => {
+      if (p.projectName === project.projectName) {
+        return {
+          ...p,
+          tasks: [...p.tasks, newTask]
+        };
+      }
+      return p;
+    });
     localStorage.setItem('projects', JSON.stringify(updatedProjects));
+    navigate(`/project/${project.projectName}/task/${newTask.taskName}`);
   };
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: '10px', margin: '10px', width: '300px' }}>
-      {isEditing ? (
-        <div>
-          <input 
-            type="text" 
-            value={projectName} 
-            onChange={(e) => setProjectName(e.target.value)} 
-          />
-          <button onClick={handleSaveName}>保存名称</button>
-        </div>
-      ) : (
-        <h3>{projectName}</h3>
-      )}
+    <div className="project">
+      <h3>{project.projectName}</h3>
       <p>发起者: {project.projectInitiator}</p>
-      <button onClick={() => setIsEditing(true)}>修改名称</button>
+      <button onClick={handleDeleteProject}>删除项目</button>
       <button onClick={handleAddTask}>添加任务</button>
-      {tasks.map((task, index) => (
-        <Task key={index} task={task} projectName={projectName} />
-      ))}
+
+      {showConfirm && (
+        <div className="confirm-dialog">
+          <p>确定要删除项目吗？</p>
+          <button onClick={confirmDelete}>确认</button>
+          <button onClick={cancelDelete}>取消</button>
+        </div>
+      )}
+
+      <div className="tasks">
+        {project.tasks.map((task, index) => (
+          <Task key={index} task={task} projectName={project.projectName} />
+        ))}
+      </div>
     </div>
   );
 };

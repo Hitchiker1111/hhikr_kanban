@@ -17,6 +17,12 @@ const Dashboard = () => {
     navigate('/login');
   };
 
+  const handleDeleteProject = (projectName) => {
+    const updatedProjects = projects.filter(p => p.projectName !== projectName);
+    setProjects(updatedProjects);
+    localStorage.setItem('projects', JSON.stringify(updatedProjects));
+  };
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -30,7 +36,7 @@ const Dashboard = () => {
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {projects.map((project, index) => (
-          <Project key={index} project={project} />
+          <Project key={index} project={project} onDeleteProject={handleDeleteProject}/>
         ))}
       </div>
     </div>
